@@ -832,6 +832,26 @@ vec_t inline operator>=(const vec_t& a, const vec_t& b){
 }
 
 
+template<typename vec_t>
+vec_t inline blend(const vec_t& a, const vec_t& b, const vec_t& c){
+    vec_t result;
+    using scalar_t = typename vec_t::scalar_t;
+    if constexpr     (std::is_integral_v<scalar_t>){
+        result.v = _mm256_blendv_epi8(a.v, b.v, c.v);
+    }
+    else if constexpr(std::is_same_v<vec_t, float_vec>){
+        result.v = _mm256_blendv_ps(a.v, b.v, c.v);
+    }
+    else if constexpr(std::is_same_v<vec_t, double_vec>){
+        result.v = _mm256_blendv_pd(a.v, b.v, c.v);
+    }
+    else{
+        static_assert(!std::is_same_v<vec_t, vec_t>, "wrong type");
+    }
+    return result;
+}
+
+
 
 }; //namespace simd_vec
 

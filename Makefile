@@ -16,7 +16,8 @@ SOURCES=main.cpp tests/test_all.cpp tests/arithmetic/test_addition.cpp \
 									tests/comparison/test_less_than.cpp \
 									tests/comparison/test_greater_than.cpp \
 									tests/comparison/test_less_or_equal.cpp \
-									tests/comparison/test_greater_or_equal.cpp
+									tests/comparison/test_greater_or_equal.cpp \
+									tests/shuffling/test_blend.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=simd_lib
 
