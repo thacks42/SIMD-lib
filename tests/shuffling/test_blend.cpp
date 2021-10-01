@@ -105,12 +105,11 @@ bool test_blend_int32(){
     return true;
 }
 
-/*
 bool test_blend_uint64(){
     using namespace simd_vec;
     uint64_vec x({1,2,3,4});
     uint64_vec y(3);
-    auto cmp = x > y;
+    auto cmp = x < y;
     auto z = blend(x, y, cmp);
     auto z_arr = z.arr();
     for(size_t i = 0; i < z_arr.size(); i++){
@@ -122,7 +121,6 @@ bool test_blend_uint64(){
     }
     return true;
 }
-*/
 
 bool test_blend_int64(){
     using namespace simd_vec;
@@ -225,14 +223,12 @@ bool test_blend(){
         fails++;
     }
     
-    /*
     result = test_blend_uint64();
     tests++;
     if(!result){
         std::cout << "failed test_blend_uint64\n";
         fails++;
     }
-    */
     
     result = test_blend_int64();
     tests++;

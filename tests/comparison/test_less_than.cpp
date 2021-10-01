@@ -88,6 +88,20 @@ bool test_less_than_int32(){
     return true;
 }
 
+bool test_less_than_uint64(){
+    using namespace simd_vec;
+    uint64_vec x({1,2,3,4});
+    uint64_vec y(3);
+    auto z = x<y;
+    auto z_arr = z.arr();
+    for(size_t i = 0; i < z_arr.size(); i++){
+        uint64_t j = static_cast<uint64_t>(i);
+        uint64_t res = 1 + j < 3 ? 0xffffffffffffffffull : 0;
+        if(z_arr[i] != res) return false;
+    }
+    return true;
+}
+
 bool test_less_than_int64(){
     using namespace simd_vec;
     int64_vec x({-1,-2,-3,-4});
@@ -182,6 +196,12 @@ bool test_less_than(){
         fails++;
     }
     
+    result = test_less_than_uint64();
+    tests++;
+    if(!result){
+        std::cout << "failed test_less_than_uint64\n";
+        fails++;
+    }
     
     result = test_less_than_int64();
     tests++;

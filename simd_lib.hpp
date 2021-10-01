@@ -679,7 +679,10 @@ vec_t inline operator<(const vec_t& a, const vec_t& b){
         result.v = ~_mm256_cmpeq_epi32(a.v, tmp);
     }
     else if constexpr(std::is_same_v<vec_t, uint64_vec>){
-        static_assert(always_false<vec_t>(), "no good way to implement less-than for unsigned 64 bit values. Sorry");
+        __m256i mask = _mm256_set1_epi64x(0x8000000000000000ull);
+        __m256i tmp1 = _mm256_xor_si256(a.v, mask);
+        __m256i tmp2 = _mm256_xor_si256(b.v, mask);
+        result.v = _mm256_cmpgt_epi64(tmp2, tmp1);
     }
     else if constexpr(std::is_same_v<vec_t, float_vec>){
         result.v = _mm256_cmp_ps(a.v, b.v, _CMP_LT_OQ);
@@ -723,7 +726,10 @@ vec_t inline operator>(const vec_t& a, const vec_t& b){
         result.v = ~_mm256_cmpeq_epi32(b.v, tmp);
     }
     else if constexpr(std::is_same_v<vec_t, uint64_vec>){
-        static_assert(always_false<vec_t>(), "no good way to implement greater-than for unsigned 64 bit values. Sorry");
+        __m256i mask = _mm256_set1_epi64x(0x8000000000000000ull);
+        __m256i tmp1 = _mm256_xor_si256(a.v, mask);
+        __m256i tmp2 = _mm256_xor_si256(b.v, mask);
+        result.v = _mm256_cmpgt_epi64(tmp1, tmp2);
     }
     else if constexpr(std::is_same_v<vec_t, float_vec>){
         result.v = _mm256_cmp_ps(a.v, b.v, _CMP_GT_OQ);
@@ -754,7 +760,7 @@ vec_t inline operator<=(const vec_t& a, const vec_t& b){
         result.v = _mm256_cmpeq_epi32(a.v, tmp);
     }
     else if constexpr(std::is_same_v<vec_t, int64_vec>){
-        static_assert(always_false<vec_t>(), "no good way to implement less-or-equal for signed 64 bit values. Sorry");
+        result.v = ~_mm256_cmpgt_epi64(a.v, b.v);
     }
     else if constexpr(std::is_same_v<vec_t, uint8_vec>){
         __m256i tmp = _mm256_min_epu8(a.v, b.v);
@@ -769,7 +775,10 @@ vec_t inline operator<=(const vec_t& a, const vec_t& b){
         result.v = _mm256_cmpeq_epi32(a.v, tmp);
     }
     else if constexpr(std::is_same_v<vec_t, uint64_vec>){
-        static_assert(always_false<vec_t>(), "no good way to implement less-or-equal for unsigned 64 bit values. Sorry");
+        __m256i mask1 = _mm256_set1_epi64x(0x8000000000000000ull);
+        __m256i tmp1 = _mm256_xor_si256(a.v, mask1);
+        __m256i tmp2 = _mm256_xor_si256(b.v, mask1);
+        result.v = ~_mm256_cmpgt_epi64(tmp1, tmp2);
     }
     else if constexpr(std::is_same_v<vec_t, float_vec>){
         result.v = _mm256_cmp_ps(a.v, b.v, _CMP_LE_OQ);
@@ -802,7 +811,7 @@ vec_t inline operator>=(const vec_t& a, const vec_t& b){
         result.v = _mm256_cmpeq_epi32(b.v, tmp);
     }
     else if constexpr(std::is_same_v<vec_t, int64_vec>){
-        static_assert(always_false<vec_t>(), "no good way to implement greater-or-equal for signed 64 bit values. Sorry");
+        result.v = ~_mm256_cmpgt_epi64(b.v, a.v);
     }
     else if constexpr(std::is_same_v<vec_t, uint8_vec>){
         __m256i tmp = _mm256_min_epu8(a.v, b.v);
@@ -817,7 +826,10 @@ vec_t inline operator>=(const vec_t& a, const vec_t& b){
         result.v = _mm256_cmpeq_epi32(b.v, tmp);
     }
     else if constexpr(std::is_same_v<vec_t, uint64_vec>){
-        static_assert(always_false<vec_t>(), "no good way to implement greater-or-equal for unsigned 64 bit values. Sorry");
+        __m256i mask1 = _mm256_set1_epi64x(0x8000000000000000ull);
+        __m256i tmp1 = _mm256_xor_si256(a.v, mask1);
+        __m256i tmp2 = _mm256_xor_si256(b.v, mask1);
+        result.v = ~_mm256_cmpgt_epi64(tmp2, tmp1);
     }
     else if constexpr(std::is_same_v<vec_t, float_vec>){
         result.v = _mm256_cmp_ps(a.v, b.v, _CMP_GE_OQ);

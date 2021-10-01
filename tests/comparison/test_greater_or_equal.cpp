@@ -88,6 +88,34 @@ bool test_greater_or_equal_int32(){
     return true;
 }
 
+bool test_greater_or_equal_uint64(){
+    using namespace simd_vec;
+    uint64_vec x({1,2,3,4});
+    uint64_vec y(3);
+    auto z = x>=y;
+    auto z_arr = z.arr();
+    for(size_t i = 0; i < z_arr.size(); i++){
+        uint64_t j = static_cast<uint64_t>(i);
+        uint64_t res = 1 + j >= 3 ? 0xffffffffffffffffull : 0;
+        if(z_arr[i] != res) return false;
+    }
+    return true;
+}
+
+bool test_greater_or_equal_int64(){
+    using namespace simd_vec;
+    int64_vec x({-1,-2,-3,-4});
+    int64_vec y(-3);
+    auto z = x>=y;
+    auto z_arr = z.arr();
+    for(size_t i = 0; i < z_arr.size(); i++){
+        int64_t j = static_cast<int64_t>(i);
+        int64_t res = -(1 + j) >= (-3) ? 0xffffffffffffffffull : 0;
+        if(z_arr[i] != res) return false;
+    }
+    return true;
+}
+
 bool test_greater_or_equal_float(){
     using namespace simd_vec;
     float_vec x({1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f});
@@ -165,6 +193,20 @@ bool test_greater_or_equal(){
     tests++;
     if(!result){
         std::cout << "failed test_greater_or_equal_int32\n";
+        fails++;
+    }
+    
+    result = test_greater_or_equal_uint64();
+    tests++;
+    if(!result){
+        std::cout << "failed test_greater_or_equal_uint64\n";
+        fails++;
+    }
+    
+    result = test_greater_or_equal_int64();
+    tests++;
+    if(!result){
+        std::cout << "failed test_greater_or_equal_int64\n";
         fails++;
     }
     
