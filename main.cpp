@@ -3,8 +3,8 @@
 using namespace simd_vec;
 
 void addition_example(){
-    int8_vec a(66);
-    int8_vec b(33);
+    int16_vec a({10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25});
+    int16_vec b(33);
     auto c = a+b;
     print(a);
     print(b);
@@ -13,7 +13,7 @@ void addition_example(){
 }
 
 void multiplication_example(){
-    int16_vec a(22);
+    int16_vec a({10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25});
     int16_vec b(3);
     auto c = a*b;
     print(a);
@@ -23,7 +23,7 @@ void multiplication_example(){
 }
 
 void sqrt_example(){
-    float_vec a(36.0f);
+    float_vec a({4.0f, 9.0f, 16.0f, 25.0f, 36.0f, 49.0f, 64.0f, 81.0f});
     auto b = sqrt(a);
     print(a);
     print(b);
@@ -31,14 +31,14 @@ void sqrt_example(){
 }
 
 void inv_sqrt_example(){
-    float_vec a(36.0f);
+    float_vec a({4.0f, 9.0f, 16.0f, 25.0f, 36.0f, 49.0f, 64.0f, 81.0f});
     auto b = inv_sqrt(a);
     print(a);
     print(b);
     std::cout << "\n";
 }
 
-void cmp_eq_example(){
+void cmp_neq_example(){
     uint64_vec a({4,5,6,7});
     uint64_vec b({5,5,5,5});
     auto c = a!=b;
@@ -50,10 +50,16 @@ void cmp_eq_example(){
 
 int main(){
     test_all();
-    return 0;
+    
+    std::cout << "tests done, executing examples...\n\n\n";
+    std::cout << "addition:\n";
     addition_example();
+    std::cout << "\nmultiplication:\n";
     multiplication_example();
+    std::cout << "\nsquare root:\n";
     sqrt_example();
+    std::cout << "\ninverse square root:\n";
     inv_sqrt_example();
-    cmp_eq_example();
+    std::cout << "\ncomparison for non-equaltiy:\n";
+    cmp_neq_example();
 }
